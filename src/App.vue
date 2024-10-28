@@ -2,6 +2,7 @@
 import Logo from './components/Logo.vue';
 import MetaItem from './components/MetaItem.vue';
 import SquaredList from './components/SquaredList.vue';
+import TimeBox from './components/TimeBox.vue';
 
 export interface IMetaItem {
   label: string
@@ -14,7 +15,6 @@ export default {
     return {
       currentDate: new Date().toISOString().slice(0, 10),
       currentMeta: '' as string,
-      horasDoDia: Array.from({ length: 19 }, (_, index) => String(index + 5).padStart(2, '0')),
       metas: [] as IMetaItem[],
     }
   },
@@ -45,14 +45,14 @@ export default {
       this.metas = this.metas.filter(m => m.label !== meta.label)
     }
   },
-  components: { Logo, SquaredList, MetaItem }
+  components: { Logo, SquaredList, MetaItem, TimeBox }
 }
 </script>
 
 <template>
   <main>
     <div class="container">
-      <section class="form">
+      <section class="app-section">
         <div class="logo-wrapper">
           <Logo />
         </div>
@@ -75,17 +75,7 @@ export default {
             @toogle-top-meta="handleMetaDailyTop" @delete-meta="handleDeleteMeta" />
         </SquaredList>
       </section>
-      <section class="timebox">
-        <h3>Horários</h3>
-        <div class="calendar-wrapper">
-          <div v-for="hora in horasDoDia" :key="hora">
-            <span class="number">
-              {{ hora }}
-            </span>
-          </div>
-          <div class="dragger-wrapper" />
-        </div>
-      </section>
+      <TimeBox />
     </div>
   </main>
 </template>
@@ -98,11 +88,6 @@ main {
   padding: 24px;
 
   min-height: 100vh;
-}
-
-h3 {
-  font-weight: bold;
-  font-size: 1.2rem;
 }
 
 button {
@@ -128,14 +113,6 @@ input::placeholder {
 .container {
   display: flex;
   gap: 24px;
-}
-
-.form,
-.timebox {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 400px;
 }
 
 .inputform {
@@ -164,45 +141,5 @@ input::placeholder {
 
 .logo-wrapper {
   margin-bottom: 32px;
-}
-
-.calendar-wrapper {
-  position: relative;
-}
-
-.dragger-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 52px;
-  right: 0;
-}
-
-.calendar-wrapper,
-.lista-metas {
-  border: 1px solid #2226;
-}
-
-.lista-metas {
-  padding: 8px;
-  font-size: 1.2rem;
-}
-
-.top-goals-wrapper p:nth-child(n),
-.calendar-wrapper div:nth-child(n) {
-  padding: 12px 8px;
-  border-bottom: 1px solid #2226;
-  font-size: 1.2rem;
-}
-
-.calendar-wrapper .number {
-  font-weight: bold;
-  text-align: center;
-  margin: 0 8px;
-}
-
-.top-goals-wrapper p:last-child,
-.calendar-wrapper div:last-child {
-  border-bottom: 0px;
 }
 </style>
