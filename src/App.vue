@@ -40,6 +40,9 @@ export default {
 
       if (this.metas.filter(m => m.inTop).length >= 3) return;
       newTopMeta.inTop = true
+    },
+    handleDeleteMeta(meta: IMetaItem) {
+      this.metas = this.metas.filter(m => m.label !== meta.label)
     }
   },
   components: { Logo, SquaredList, MetaItem }
@@ -60,7 +63,7 @@ export default {
         <h3>Top metas diárias</h3>
         <SquaredList :empty-message="'Escolha as metas prioritárias do dia'">
           <MetaItem v-for="meta in metas.filter(m => m.inTop)" :key="`meta-${meta}`" :itemData="meta"
-            @toogle-top-meta="handleMetaDailyTop" />
+            @toogle-top-meta="handleMetaDailyTop" @delete-meta="handleDeleteMeta" />
         </SquaredList>
         <h3>Metas do dia</h3>
         <div class="inputform">
@@ -69,7 +72,7 @@ export default {
         </div>
         <SquaredList :empty-message="'Definas suas metas do dia'">
           <MetaItem v-for="meta in metas.filter(m => !m.inTop)" :key="`meta-${meta}`" :itemData="meta"
-            @toogle-top-meta="handleMetaDailyTop" />
+            @toogle-top-meta="handleMetaDailyTop" @delete-meta="handleDeleteMeta" />
         </SquaredList>
       </section>
       <section class="timebox">
