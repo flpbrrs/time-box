@@ -4,3 +4,19 @@ body {
     background-color: #f7f7f7;
     color: #373737;
 }
+
+h3 {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.app-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 400px;
+}
+
+.list-wrapper-bordered {
+    border: 1px solid #2226;
+}
