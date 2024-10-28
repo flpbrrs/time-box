@@ -3,25 +3,43 @@ import Logo from './components/Logo.vue';
 import MetaItem from './components/MetaItem.vue';
 import SquaredList from './components/SquaredList.vue';
 
+export interface IMetaItem {
+  label: string
+  inTop: boolean
+  inBacklog: boolean
+}
+
 export default {
   data() {
     return {
       currentDate: new Date().toISOString().slice(0, 10),
       currentMeta: '' as string,
       horasDoDia: Array.from({ length: 19 }, (_, index) => String(index + 5).padStart(2, '0')),
-      metas: [] as string[],
-      topMetas: [] as string[]
+      metas: [] as IMetaItem[],
     }
   },
   methods: {
     handleMetaAdd() {
       if (this.currentMeta === '') return;
-      if (this.metas.filter(m => m === this.currentMeta).length > 0) {
+      if (this.metas.filter(m => m.label === this.currentMeta).length > 0) {
         this.currentMeta = ''
         return;
       };
-      this.metas.push(this.currentMeta);
+      this.metas.push({
+        label: this.currentMeta,
+        inTop: false,
+        inBacklog: true,
+      });
       this.currentMeta = ''
+    },
+    handleMetaDailyTop(newTopMeta: IMetaItem) {
+      if (newTopMeta.inTop) {
+        newTopMeta.inTop = false
+        return;
+      }
+
+      if (this.metas.filter(m => m.inTop).length >= 3) return;
+      newTopMeta.inTop = true
     }
   },
   components: { Logo, SquaredList, MetaItem }
@@ -41,9 +59,8 @@ export default {
         </div>
         <h3>Top metas diárias</h3>
         <SquaredList :empty-message="'Escolha as metas prioritárias do dia'">
-          <MetaItem v-for="meta in topMetas">
-            {{ meta }}
-          </MetaItem>
+          <MetaItem v-for="meta in metas.filter(m => m.inTop)" :key="`meta-${meta}`" :itemData="meta"
+            @toogle-top-meta="handleMetaDailyTop" />
         </SquaredList>
         <h3>Metas do dia</h3>
         <div class="inputform">
@@ -51,9 +68,8 @@ export default {
           <button type="button" @click="handleMetaAdd" :disabled="currentMeta.length <= 0">Adicionar</button>
         </div>
         <SquaredList :empty-message="'Definas suas metas do dia'">
-          <MetaItem v-for="meta in metas">
-            {{ meta }}
-          </MetaItem>
+          <MetaItem v-for="meta in metas.filter(m => !m.inTop)" :key="`meta-${meta}`" :itemData="meta"
+            @toogle-top-meta="handleMetaDailyTop" />
         </SquaredList>
       </section>
       <section class="timebox">
