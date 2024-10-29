@@ -40,10 +40,6 @@ export default {
             }))
             this.layout = [...this.layout, ...items]
         }
-        console.log('-----------------')
-        console.log(this.$props.data)
-        console.log(this.$data.layout)
-        console.log(novosItems)
     },
     components: {
         GridLayout,
