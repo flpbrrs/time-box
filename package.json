@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tabler/icons-vue": "^3.19.0",
+    "grid-layout-plus": "^1.0.5",
     "vue": "^3.5.12"
   },
   "devDependencies": {
