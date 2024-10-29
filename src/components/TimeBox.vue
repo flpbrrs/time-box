@@ -40,10 +40,6 @@ export default {
             }))
             this.layout = [...this.layout, ...items]
         }
-        console.log('-----------------')
-        console.log(this.$props.data)
-        console.log(this.$data.layout)
-        console.log(novosItems)
     },
     components: {
         GridLayout,
@@ -72,8 +68,6 @@ export default {
                 </template>
             </GridLayout>
         </div>
-        <!-- Não mexer, sujeito a porrada! -->
-        <!-- {{ JSON.stringify(data, null, 2) }} -->
     </section>
 </template>
 <style scoped>
